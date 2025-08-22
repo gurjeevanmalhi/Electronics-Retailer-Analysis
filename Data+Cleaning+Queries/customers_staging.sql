@@ -70,25 +70,52 @@ where name !~ '^[A-Za-z]+ [A-Za-z]+$';
 -- $ = end of string
 
 -- Creating View for Non Standard Names
-create view vw_nonstandard_nameas as
+create view vw_nonstandard_names as
 select customer_key,name
 from customers_staging
 where name !~ '^[A-Za-z'' -]+$';
 
-select *
-from vw_nonstandard_nameas
-where name like 'J_rg%';
+-- Updating Special or Invalid Characters
+update customers_staging
+set name = regexp_replace(name, '^J[^A-Za-z]rg', 'Jurg')
+where customer_key in (select customer_key
+                       from vw_nonstandard_names
+                       where name like 'J_rg%');
 
-select customer_key,name
-from customers_staging
-where name like '%^%';
-
-select customer_key, name
-from customers_staging
-where name like '%?%';
-
+-- Removing '?' from Name
 update customers_staging
 set name = replace(name,'?','')
 where name like '%?%';
+
+-- Updating Missing Characters
+update customers_staging
+set name = regexp_replace(name, '[^A-Za-z ]', 'i', 'g')
+where customer_key in (select customer_key
+                       from vw_nonstandard_names
+                       where name like '%M_ller%');
+-- Updating Missing Characters
+update customers_staging
+set name = regexp_replace(name, '[^A-Za-z ]', 'o', 'g')
+where customer_key in (select customer_key
+                       from vw_nonstandard_names
+                       where name like '%Schr_der');
+
+-- Updating Missing Characters
+update customers_staging
+set name = regexp_replace(name, '[^A-Za-z ]', 'a', 'g')
+where customer_key in (select customer_key
+                       from vw_nonstandard_names
+                       where name like '%G_rtner');
+
+-- Updating Missing Characters
+update customers_staging
+set name = regexp_replace(name, '[^A-Za-z ]', 'o', 'g')
+where customer_key in (select customer_key
+                       from vw_nonstandard_names
+                       where name like '%K_n%'
+                          or name like '%K_h%');
+
+
+
 
 
