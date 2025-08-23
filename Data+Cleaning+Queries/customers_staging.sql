@@ -1,36 +1,40 @@
 -- Storing Raw Data
-create table raw_customers(
+create table raw_customers
+(
     customer_key varchar(220),
-    gender varchar(220),
-    name varchar(220),
-    city varchar(220),
-    state_code varchar(220),
-    state varchar(220),
-    zip_code varchar(220),
-    country varchar(220),
-    continent varchar(220),
-    birthday varchar(220)
+    gender       varchar(220),
+    name         varchar(220),
+    city         varchar(220),
+    state_code   varchar(220),
+    state        varchar(220),
+    zip_code     varchar(220),
+    country      varchar(220),
+    continent    varchar(220),
+    birthday     varchar(220)
 );
 
 -- Creating Staging Table
-create table customers_staging(
+create table customers_staging
+(
     customer_key varchar(220),
-    gender varchar(220),
-    name varchar(220),
-    city varchar(220),
-    state_code varchar(220),
-    state varchar(220),
-    zip_code varchar(220),
-    country varchar(220),
-    continent varchar(220),
-    birthday varchar(220)
+    gender       varchar(220),
+    name         varchar(220),
+    city         varchar(220),
+    state_code   varchar(220),
+    state        varchar(220),
+    zip_code     varchar(220),
+    country      varchar(220),
+    continent    varchar(220),
+    birthday     varchar(220)
 );
 
 -- Previewing Table
-select * from customers_staging;
+select *
+from customers_staging;
 
 -- 15,266 Total Records
-select count(*) from customers_staging;
+select count(*)
+from customers_staging;
 
 -- Verified Unique Keys
 select count(distinct customer_key)
@@ -40,13 +44,13 @@ from customers_staging;
 select count(customer_key)
 from customers_staging
 where customer_key is null
-    or customer_key = ' ';
+   or customer_key = ' ';
 
 -- Verified No Null or Blank Values
 select count(gender)
 from customers_staging
 where gender is null
-    or gender = ' ';
+   or gender = ' ';
 
 select distinct(gender)
 from customers_staging;
@@ -60,61 +64,94 @@ select name
 from customers_staging
 where name = ' ';
 
--- Returning Non-Conventional Names
-select customer_key, name
+-- Normalize accented characters in customer names to plain ASCII letters
+update customers_staging
+set name = initcap(translate(name,
+                             'áàâäãåÁÀÂÄÃÅéèêëÉÈÊËíìîïÍÌÎÏóòôöõÓÒÔÖÕúùûüÚÙÛÜñÑçÇÿŸ',
+                             'aaaaaaAAAAAAeeeeEEEEiiiiIIIIoooooOOOOOuuuuUUUUnNcCyY'));
+
+-- Adding columns for first & last name
+alter table customers_staging
+    add column first_name varchar(220),
+    add column last_name  varchar(220);
+
+-- Splitting first & last names
+update customers_staging
+set first_name = split_part(name, ' ', 1),
+    last_name  = substring(name from position(' ' in name) + 1);
+
+-- Deleting original name column
+alter table customers_staging
+    drop column name;
+
+-- Creating view for invalid first names
+create view invalid_first_names as
+select customer_key, first_name, last_name, city, country
 from customers_staging
-where name !~ '^[A-Za-z]+ [A-Za-z]+$';
--- ^ = start of string
--- [A-Za-z]+ = one or more upper or lowercase letters
--- [A-Za-z]+ = space + one more upper or lowercase letters
--- $ = end of string
+where first_name !~ '^[A-Za-z''-]+$';
 
--- Creating View for Non Standard Names
-create view vw_nonstandard_names as
-select customer_key,name
-from customers_staging
-where name !~ '^[A-Za-z'' -]+$';
+-- Cleaning First Names
 
--- Updating Special or Invalid Characters
 update customers_staging
-set name = regexp_replace(name, '^J[^A-Za-z]rg', 'Jurg')
+set first_name = regexp_replace(first_name, '^J[^A-Za-z]Rg', 'Jurg')
 where customer_key in (select customer_key
-                       from vw_nonstandard_names
-                       where name like 'J_rg%');
+                       from invalid_first_names
+                       where first_name like 'J_Rg%');
 
--- Removing '?' from Name
 update customers_staging
-set name = replace(name,'?','')
-where name like '%?%';
-
--- Updating Missing Characters
-update customers_staging
-set name = regexp_replace(name, '[^A-Za-z ]', 'i', 'g')
+set first_name = substring(first_name from 2)
 where customer_key in (select customer_key
-                       from vw_nonstandard_names
-                       where name like '%M_ller%');
--- Updating Missing Characters
-update customers_staging
-set name = regexp_replace(name, '[^A-Za-z ]', 'o', 'g')
-where customer_key in (select customer_key
-                       from vw_nonstandard_names
-                       where name like '%Schr_der');
+                       from invalid_first_names
+                       where first_name like '%Leo%');
 
--- Updating Missing Characters
 update customers_staging
-set name = regexp_replace(name, '[^A-Za-z ]', 'a', 'g')
-where customer_key in (select customer_key
-                       from vw_nonstandard_names
-                       where name like '%G_rtner');
+set first_name = 'Aaron'
+where first_name = 'A‰Ron';
 
--- Updating Missing Characters
 update customers_staging
-set name = regexp_replace(name, '[^A-Za-z ]', 'o', 'g')
+set first_name = 'Soren'
 where customer_key in (select customer_key
-                       from vw_nonstandard_names
-                       where name like '%K_n%'
-                          or name like '%K_h%');
+                       from invalid_first_names
+                       where first_name like '%Ren');
 
+update customers_staging
+set first_name = substring(first_name, 2)
+where first_name like '%Gatha%';
+
+update customers_staging
+set first_name =
+        case
+            when first_name like 'J_Lia' then 'Julia'
+            when first_name like 'Luk%' then 'Luke'
+            when first_name like 'J_n' then 'Jan'
+            when first_name like 'K_Rsad' then 'Karsed'
+            when first_name like 'T_Nia' then 'Tania'
+            when first_name like 'Adri_N' then 'Adrien'
+            when first_name like '%Heda' then 'Sheda'
+            when first_name like 'Ces%' then 'Cesareo'
+            when first_name like '%Agla' then 'Agla'
+            when first_name like 'G_K%' then 'Gkae'
+            when first_name like 'V_Clav' then 'Vclav'
+            when first_name like 'Jo%' then 'Joao'
+            else first_name
+            end
+where customer_key in (select customer_key
+                       from invalid_first_names);
+
+update customers_staging
+set first_name = 'Jan'
+where first_name like 'J_N';
+
+update customers_staging
+set first_name = 'Ike'
+where customer_key = '1982772';
+
+update customers_staging
+set first_name = 'E' || substring(first_name from 2)
+where customer_key in (select customer_key from invalid_first_names);
+
+select distinct first_name from customers_staging;
+------------------------------------------------------------------------------------------------------------------------
 
 
 
