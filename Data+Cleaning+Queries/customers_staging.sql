@@ -150,9 +150,84 @@ update customers_staging
 set first_name = 'E' || substring(first_name from 2)
 where customer_key in (select customer_key from invalid_first_names);
 
-select distinct first_name from customers_staging;
+------------------------------------------------------------------------------------------------------------------------
+-- Last Name Column
+
+-- Creating View for Invalid Last Names
+create view invalid_last_names as
+select customer_key, last_name
+from customers_staging
+where last_name !~ '^[A-Za-z'' -]+$';
+
+-- Removing '?' from names
+update customers_staging
+set last_name = replace(last_name, '?', '');
+
+update customers_staging
+set last_name = 'Gartner'
+where customer_key in (select customer_key
+                       from invalid_last_names
+                       where last_name like 'G_Rt%');
+
+------------------------------------------------------------------------------------------------------------------------
+-- City
+
+-- 0 Null Values
+select count(*) - count(city)
+from customers_staging;
+
+update customers_staging
+set city = initcap(city);
+
+------------------------------------------------------------------------------------------------------------------------
+-- State Code
+
+-- 0 Null Values
+select count(*) - count(state_code)
+from customers_staging;
+
+------------------------------------------------------------------------------------------------------------------------
+-- Zip Code
+
+-- 0 Null Values
+select count(*) - count(zip_code)
+from customers_staging;
+
+-- Adding leading 0's to US zip codes
+update customers_staging
+set zip_code = '0' || zip_code
+where length(zip_code) = 4
+  and country = 'United States';
+
+------------------------------------------------------------------------------------------------------------------------
+-- Country
+
+-- 0 Null Values
+select count(*) - count(country)
+from customers_staging;
+
 ------------------------------------------------------------------------------------------------------------------------
 
+-- Continent
 
+select count(*) - count(continent)
+from customers_staging;
 
+select distinct continent
+from customers_staging;
+
+------------------------------------------------------------------------------------------------------------------------
+
+-- Birthday
+
+select count(*) - count(birthday)
+from customers_staging;
+
+update customers_staging
+set birthday =
+        case
+            when birthday::date > current_date
+                then ((birthday::date - interval '100 years')::date)::text
+            else (birthday::date)::text
+            end;
 
