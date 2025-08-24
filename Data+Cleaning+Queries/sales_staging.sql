@@ -126,3 +126,31 @@ where customer_key !~ '^[0-9]+$';
 ------------------------------------------------------------------------------------------------------------------------
 -- Store Key
 
+select distinct store_key from sales_staging;
+
+-- Validated numeric format
+select store_key
+from sales_staging
+where store_key !~ '^[0-9]+$';
+
+------------------------------------------------------------------------------------------------------------------------
+-- Product Key
+
+select distinct product_key from sales_staging;
+
+-- Validated numeric format
+select store_key
+from sales_staging
+where store_key !~ '^[0-9]+$';
+
+------------------------------------------------------------------------------------------------------------------------
+-- Quantity
+
+-- Validated
+select distinct quantity from sales_staging;
+
+------------------------------------------------------------------------------------------------------------------------
+-- Currency Code
+
+-- Validated
+select distinct currency_code from sales_staging;
