@@ -31,6 +31,6 @@ select cast(customer_key as int),
 from customers_staging;
 
 -- Dropped staging table
-drop table if exists customers_staging;
+drop table if exists customers_staging cascade;
 
 
