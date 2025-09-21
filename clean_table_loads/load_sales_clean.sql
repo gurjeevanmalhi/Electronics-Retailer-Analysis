@@ -31,3 +31,6 @@ select order_number::int,
        quantity::smallint,
        currency_code
 from sales_staging;
+
+-- Dropped staging table
+drop table if exists sales_staging;
