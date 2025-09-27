@@ -1,4 +1,4 @@
--- Who are the top customers by lifetime revenue, and what’s their latest purchase date?**
+-- Who are the top customers by lifetime revenue, and what’s their latest purchase date?
 
 select c.first_name || ' ' || c.last_name                       as cust_name,
        round(sum(s.quantity * p.unit_price_usd * f.fx_rate), 2) as lifetime_rev_usd,
