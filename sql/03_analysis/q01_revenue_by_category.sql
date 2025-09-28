@@ -8,8 +8,7 @@ from sales s
          left join categories c
                    on p.category_key = c.category_key
          left join fx_rates f
-                   on s.order_date = f.fx_date
-                       and s.currency_code = f.currency
+                   on s.fx_key = f.fx_key
 where s.order_date >= (select max(order_date) - interval '12 months'
                        from sales)
 group by 1
