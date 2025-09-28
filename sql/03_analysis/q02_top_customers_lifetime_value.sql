@@ -6,7 +6,7 @@ select c.first_name || ' ' || c.last_name                       as cust_name,
 from sales s
          join customers c on s.customer_key = c.customer_key
          join products p on s.product_key = p.product_key
-         join fx_rates f on s.order_date = f.fx_date and s.currency_code = f.currency
+         join fx_rates f on s.fx_key = f.fx_key
 group by 1
 order by 2 desc;
 
