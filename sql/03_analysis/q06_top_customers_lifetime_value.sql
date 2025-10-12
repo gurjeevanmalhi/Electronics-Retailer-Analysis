@@ -1,4 +1,4 @@
--- Who are the top customers by lifetime revenue, and what’s their latest purchase date?
+-- Who are the top customers by lifetime revenue and what are their latest purchase dates?
 
 -- Finds most recent order per customer
 with max_order_date as (select
