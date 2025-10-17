@@ -1,4 +1,4 @@
--- Which stores are most productive by revenue per square meter?**
+-- Which stores are most productive by revenue per square meter?
 
 select s.store_key,
        st.state,

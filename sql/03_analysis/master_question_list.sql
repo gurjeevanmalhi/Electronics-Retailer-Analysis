@@ -1,17 +1,5 @@
-1. **Which product categories drove the most revenue in the last 12 months, and how did they grow YoY?**
-   `-- File: sql/03_analysis/q01_revenue_by_category_yoy.sql`
-
-2. **Which countries deliver the highest FX-adjusted revenue and YoY growth?**
-   `-- File: sql/03_analysis/q02_country_revenue_fx_adjusted.sql`
-
 3. **Which stores are most productive by revenue per square meter?**
    `-- File: sql/03_analysis/q03_store_productivity_rev_per_sqm.sql`
-
-4. **Where are delivery times slowest (avg days from order to delivery) by state/country, and are they improving?**
-   `-- File: sql/03_analysis/q04_delivery_sla_delays_by_region.sql`
-
-5. **Who are the top customers by lifetime revenue, and what’s their latest purchase date?**
-   `-- File: sql/03_analysis/q05_top_customers_lifetime_value.sql`
 
 6. **Customer cohort analysis: retention and revenue by first-purchase month over 6 months.**
    `-- File: sql/03_analysis/q06_cohort_repeat_rate_by_first_order_month.sql`
@@ -57,3 +45,14 @@
 
 20. **On-time performance trend: % of deliveries within X days by month and country.**
     `-- File: sql/03_analysis/q20_on_time_delivery_trend_monthly.sql`
+-----------------------------------------------------------------------------------------------------------------------
+8. How did total sales revenue during the Black Friday week (Nov 24–30, 2024) compare to the same week last year (Nov 24–30, 2023)?
+-- File: sql/03_analysis/q08_black_friday_yoy_comparison.sql
+10. Are there any seasonal patterns or trends for order volume or revenue?
+-- File: sql/03_analysis/q10_seasonal_sales_trends.sql
+11. **Customer cohort analysis: retention and revenue by first-purchase month over 6 months.**
+   `-- File: sql/03_analysis/q11_cohort_repeat_rate_by_first_order_month.sql
+13. **Basket analysis: most frequent product pairs bought in the same order.**
+    `-- File: sql/03_analysis/q13_basket_co_purchase_pairs.sql`
+*15. "What is the total sales revenue by store and product category, including subtotals per store and a grand total for all stores?"
+-- File: sql/03_analysis/q15_sales_rollup_by_store_category.sql
