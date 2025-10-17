@@ -1,38 +1,43 @@
 Table,Field,Description
-Sales,Order Number,Unique ID for each order
-Sales,Line Item,Identifies individual products purchased as part of an order
-Sales,Order Date,Date the order was placed
-Sales,Delivery Date,Date the order was delivered
-Sales,CustomerKey,Unique key identifying which customer placed the order
-Sales,StoreKey,Unique key identifying which store processed the order
-Sales,ProductKey,Unique key identifying which product was purchased
-Sales,Quantity,Number of items purchased
-Sales,Currency Code,Currency used to process the order
-Customers,CustomerKey,Primary key to identify customers
-Customers,Gender,Customer gender
-Customers,Name,Customer full name
-Customers,City,Customer city
-Customers,State Code,Customer state (abbreviated)
-Customers,State,Customer state (full)
-Customers,Zip Code,Customer zip code
-Customers,Country,Customer country
-Customers,Continent,Customer continent
-Customers,Birthday,Customer date of birth
-Products,ProductKey,Primary key to identify products
-Products,Product Name,Product name
-Products,Brand,Product brand
-Products,Color,Product color
-Products,Unit Cost USD,Cost to produce the product in USD
-Products,Unit Price USD,Product list price in USD
-Products,SubcategoryKey,Key to identify product subcategories
-Products,Subcategory,Product subcategory name
-Products,CategoryKey,Key to identify product categories
-Products,Category,Product category name
-Stores,StoreKey,Primary key to identify stores
-Stores,Country,Store country
-Stores,State,Store state
-Stores,Square Meters,Store footprint in square meters
-Stores,Open Date,Store open date
-Exchange Rates,Date,Date
-Exchange Rates,Currency,Currency code
-Exchange Rates,Exchange,Exchange rate compared to USD
+sales,order _number,Unique ID for each order
+sales,line_item,Identifies individual products purchased as part of an order
+sales,order_date,Date the order was placed
+sales,delivery_date,Date the order was delivered
+sales,customer_key,Unique key identifying which customer placed the order
+sales,store_key,Unique key identifying which store processed the order
+sales,product_key,Unique key identifying which product was purchased
+sales,quantity,Number of items purchased
+sales,currency_code,Currency used to process the order
+sales,fx_key,Key identifying the exchange rate applied to the order
+customers,customer_key,Primary key to identify customers
+customers,gender,Customer gender
+customers,city,Customer city
+customers,state_code,Customer state (abbreviated)
+customers,state,Customer state (full)
+customers,zip_code,Customer zip code
+customers,country,Customer country
+customers,continent,Customer continent
+customers,birthdate,Customer date of birth
+customers,first_name,Customer first name
+customers,last_name,Customer last name
+products,product_key,Primary key to identify products
+products,product_name,Product name
+products,brand,Product brand
+products,color,Product color
+products,unit_cost_usd,Cost to produce the product in USD
+products,unit_price_usd,Product list price in USD
+products,subcategory_key,Key to identify product subcategories
+products,category_key,Key to identify product categories
+stores,store_key,Primary key to identify stores
+stores,country,Store country
+stores,state,Store state
+stores,square_meters,Store footprint in square meters
+stores,open_date,Store open date
+fx_rates,fx_date,Date
+fx_rates,currency_code,Currency code
+fx_rates,fx_rate,Exchange rate compared to USD
+fx_rates,fx_key,Key identifying each foreign exchange rate record in the table
+categories,category_key,Unique key identifiying product category
+categories,category,Name of product category
+subcategories,subcategory_key,Unique key identifiying product subcategory
+subcategories,subcategory,Name of product subcategory
