@@ -11,5 +11,7 @@ with sales_usd as (select extract(year from order_date)                   as yea
 select year,
        month,
        total_revenue,
-       avg(total_revenue) over (order by year, month rows between 2 preceding and current row) as moving_avg_3
+       avg(total_revenue) over (
+           order by year, month
+           rows between 2 preceding and current row) as moving_avg_3
 from sales_usd;
