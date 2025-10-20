@@ -1,0 +1,12 @@
+/eda
+    ├── notebooks/
+    │     ├── 01_data_overview.ipynb
+    │     ├── 02_summary_statistics.ipynb
+    │     ├── 03_visual_exploration.ipynb
+    │     ├── 04_correlation_regression.ipynb
+    ├── scripts/
+    │     ├── data_load.py
+    │     ├── utils.py
+    └── outputs/
+          ├── charts/
+          ├── summary_csvs/
