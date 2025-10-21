@@ -9,6 +9,7 @@ sales,product_key,Unique key identifying which product was purchased
 sales,quantity,Number of items purchased
 sales,currency_code,Currency used to process the order
 sales,fx_key,Key identifying the exchange rate applied to the order
+sales,sales_id,Surrogate primary key that uniquely identifies each row in the sales fact table.
 customers,customer_key,Primary key to identify customers
 customers,gender,Customer gender
 customers,city,Customer city
