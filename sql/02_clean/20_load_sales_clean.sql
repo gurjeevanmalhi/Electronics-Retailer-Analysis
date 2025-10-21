@@ -14,3 +14,7 @@ from sales_staging;
 
 -- Dropped staging table
 drop table if exists sales_staging;
+
+-- Add surrogate key
+alter table sales
+add column sales_id serial primary key;
