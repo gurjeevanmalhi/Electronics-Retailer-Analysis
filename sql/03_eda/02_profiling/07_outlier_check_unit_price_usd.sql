@@ -30,7 +30,7 @@ counts as (
 )
 select
   'sales' as table_name,
-  'quantity' as column_name,
+  'unit_price_usd' as column_name,
   stats.n, stats.mean, stats.median, stats.q1, stats.q3, iqr,
   lower_fence, upper_fence,
   low_outliers, high_outliers,
