@@ -1,4 +1,4 @@
--- IQR-based outlier check for quantity.
+-- IQR-based outlier check for unit price.
 
 with stats as (
   select
